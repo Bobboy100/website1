@@ -89,6 +89,13 @@
             background-color: #555;
         }
 
+        .product input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -125,11 +132,35 @@
         #cart-items li {
             margin-bottom: 10px;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        #cart-items img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
         }
 
         #total {
             font-size: 20px;
             margin-top: 20px;
+        }
+
+        .cart-update {
+            animation: update 0.3s ease-in-out;
+        }
+
+        @keyframes update {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
@@ -150,19 +181,25 @@
         <img src="images/images (1).jpeg" alt="100000 quota stare">
         <h2>100000 quota stare</h2>
         <p>$19.99</p>
-        <button onclick="addToCart('100000 quota stare', 19.99)">Add to Cart</button>
+        <input type="number" id="quantity-1" value="1" min="1">
+        <button onclick="addToCart('100000 quota stare', 19.99, 'images/images (1).jpeg', 1)">Add to Cart</button>
+        <audio id="audio-1" src="sounds/sound1.mp3"></audio>
     </div>
     <div class="product">
         <img src="images/Näyttökuva 2024-08-18 202950.png" alt="Hey it's me Goku!">
         <h2>Hey it's me Goku!</h2>
         <p>$29.99</p>
-        <button onclick="addToCart('Hey it\'s me Goku!', 29.99)">Add to Cart</button>
+        <input type="number" id="quantity-2" value="1" min="1">
+        <button onclick="addToCart('Hey it\'s me Goku!', 29.99, 'images/Näyttökuva 2024-08-18 202950.png', 2)">Add to Cart</button>
+        <audio id="audio-2" src="sounds/sound2.mp3"></audio>
     </div>
     <div class="product">
         <img src="images/Näyttökuva 2024-08-18 203032.png" alt="Jesus itself?!">
         <h2>Jesus itself?!</h2>
         <p>$39.99</p>
-        <button onclick="addToCart('Jesus itself?!', 39.99)">Add to Cart</button>
+        <input type="number" id="quantity-3" value="1" min="1">
+        <button onclick="addToCart('Jesus itself?!', 39.99, 'images/Näyttökuva 2024-08-18 203032.png', 3)">Add to Cart</button>
+        <audio id="audio-3" src="sounds/sound3.mp3"></audio>
     </div>
 </div>
 
@@ -180,9 +217,18 @@
     let cart = [];
     let total = 0;
 
-    function addToCart(productName, productPrice) {
-        cart.push({ name: productName, price: productPrice });
-        total += productPrice;
+    function addToCart(productName, productPrice, productImage, productId) {
+        const quantityInput = document.getElementById(`quantity-${productId}`);
+        const quantity = parseInt(quantityInput.value);
+
+        const audio = document.getElementById(`audio-${productId}`);
+        audio.play();
+
+        for (let i = 0; i < quantity; i++) {
+            cart.push({ name: productName, price: productPrice, image: productImage });
+        }
+        
+        total += productPrice * quantity;
         updateCart();
     }
 
@@ -192,11 +238,22 @@
         
         cart.forEach((item) => {
             const li = document.createElement('li');
-            li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            const img = document.createElement('img');
+            img.src = item.image;
+            img.alt = item.name;
+            img.style.width = '50px';
+            img.style.height = '50px';
+            li.appendChild(img);
+            li.appendChild(document.createTextNode(`${item.name} - $${item.price.toFixed(2)}`));
             cartItems.appendChild(li);
         });
 
         document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+        document.getElementById('total').classList.add('cart-update');
+
+        setTimeout(() => {
+            document.getElementById('total').classList.remove('cart-update');
+        }, 500);
     }
 </script>
 
