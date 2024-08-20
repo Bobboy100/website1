@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalist Online Store with Cart</title>
+    <title>Minimalist Online Store</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -162,6 +162,16 @@
                 transform: scale(1);
             }
         }
+
+        .goofy-mode {
+            background-color: #ff69b4;
+            color: #000;
+        }
+
+        /* Piilotetaan Goofy Mode -tuote, kunnes se aktivoidaan */
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -201,6 +211,15 @@
         <button onclick="addToCart('Jesus itself?!', 39.99, 'images/Näyttökuva 2024-08-18 203032.png', 3)">Add to Cart</button>
         <audio id="audio-3" src="images/sound3.mp3"></audio>
     </div>
+    <!-- Salainen tuote, joka näkyy vasta Goofy Modessa -->
+    <div class="product goofy-product hidden" id="goofy-product">
+        <img src="images/branch.jpg" alt="Branch">
+        <h2>Branch</h2>
+        <p>$9.99</p>
+        <input type="number" id="quantity-4" value="1" min="1">
+        <button onclick="addToCart('Branch', 9.99, 'images/branch.jpg', 4)">Add to Cart</button>
+        <audio id="audio-4" src="images/branch.mp3"></audio>
+    </div>
 </div>
 
 <div id="cart">
@@ -209,6 +228,9 @@
     <div id="total">Total: $0.00</div>
 </div>
 
+<!-- Goofy Mode Sound -->
+<audio id="goofy-sound" src="images/uu crusifix deluxe.mp3"></audio>
+
 <footer>
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
 </footer>
@@ -216,6 +238,28 @@
 <script>
     let cart = [];
     let total = 0;
+
+    document.addEventListener('keydown', checkKonamiCode);
+    let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    let konamiIndex = 0;
+
+    function checkKonamiCode(e) {
+        if (e.keyCode === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                activateGoofyMode();
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    }
+
+    function activateGoofyMode() {
+        document.body.classList.add('goofy-mode');
+        document.getElementById('goofy-sound').play();
+        document.getElementById('goofy-product').classList.remove('hidden');
+        alert('Oho!');
+    }
 
     function addToCart(productName, productPrice, productImage, productId) {
         const quantityInput = document.getElementById(`quantity-${productId}`);
