@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             color: #333;
+            transition: background-color 0.3s ease;
         }
 
         header {
@@ -43,10 +44,23 @@
         }
 
         .products {
-            display: flex;
+            display: none;
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+        }
+
+        .products.active {
+            display: flex;
+        }
+
+        .about, .contact {
+            display: none;
+            padding: 20px;
+        }
+
+        .about.active, .contact.active {
+            display: block;
         }
 
         .product {
@@ -57,6 +71,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         .product img {
@@ -116,6 +131,11 @@
             margin: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            display: none; /* Piilotetaan oletuksena */
+        }
+
+        #cart.active {
+            display: block;
         }
 
         #cart h2 {
@@ -166,11 +186,39 @@
         .goofy-mode {
             background-color: #ff69b4;
             color: #000;
+            transition: background-color 0.3s ease;
         }
 
-        /* Piilotetaan Goofy Mode -tuote, kunnes se aktivoidaan */
         .hidden {
             display: none;
+        }
+
+        .animated-bg {
+            background: linear-gradient(270deg, #ff69b4, #ff6a00, #ffcd00);
+            background-size: 600% 600%;
+            animation: moveBg 5s infinite;
+        }
+
+        @keyframes moveBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Goofy Mode - Extra Effects */
+        .goofy-mode .product {
+            background-color: #ff69b4;
+            transform: rotate(10deg);
+            transition: transform 0.5s ease, background-color 0.5s ease;
+        }
+
+        .goofy-mode .product:hover {
+            transform: rotate(-10deg);
+        }
+
+        .random-color {
+            background-color: #ff6a00;
+            color: #fff;
         }
     </style>
 </head>
@@ -179,14 +227,15 @@
 <header>
     <h1>Minimalist Store</h1>
     <nav>
-        <a href="#">Home</a>
-        <a href="#">Products</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="#" onclick="showPage('products')">Home</a>
+        <a href="#" onclick="showPage('products')">Products</a>
+        <a href="#" onclick="showPage('about')">About</a>
+        <a href="#" onclick="showPage('contact')">Contact</a>
     </nav>
 </header>
 
-<div class="products">
+<!-- Products Section -->
+<div class="products active">
     <div class="product">
         <img src="images/images (1).jpeg" alt="100000 quota stare">
         <h2>100000 quota stare</h2>
@@ -211,7 +260,6 @@
         <button onclick="addToCart('Jesus itself?!', 39.99, 'images/Näyttökuva 2024-08-18 203032.png', 3)">Add to Cart</button>
         <audio id="audio-3" src="images/sound3.mp3"></audio>
     </div>
-    <!-- Salainen tuote, joka näkyy vasta Goofy Modessa -->
     <div class="product goofy-product hidden" id="goofy-product">
         <img src="images/branch.jpg" alt="Branch">
         <h2>Branch</h2>
@@ -222,14 +270,47 @@
     </div>
 </div>
 
-<div id="cart">
+<!-- About Page -->
+<div class="about">
+    <h2>About Us</h2>
+    <p>This is a minimalist online store created by the team of Fabriccage. Thank you for visiting!</p>
+</div>
+
+<!-- Contact Page -->
+<div class="contact">
+    <h2>Contact Us</h2>
+    <form>
+        <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" rows="5" placeholder="Enter your message"></textarea>
+        </div>
+        <button type="button" onclick="submitContactForm()">Submit</button>
+    </form>
+</div>
+
+<!-- Shopping Cart -->
+<div id="cart" class="active">
     <h2>Shopping Cart</h2>
     <ul id="cart-items"></ul>
     <div id="total">Total: $0.00</div>
 </div>
 
 <!-- Goofy Mode Sound -->
-<audio id="goofy-sound" src="images/uu crusifix deluxe.mp3"></audio>
+<audio id="goofy-sound" src="images/goofy mode start.mp3"></audio>
+
+<!-- Goofy Mode Background Music -->
+<audio id="background-music" loop>
+    <source src="images/background-music.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
 
 <footer>
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
@@ -255,10 +336,19 @@
     }
 
     function activateGoofyMode() {
-        document.body.classList.add('goofy-mode');
-        document.getElementById('goofy-sound').play();
-        document.getElementById('goofy-product').classList.remove('hidden');
+        document.body.classList.add('goofy-mode', 'animated-bg');
         alert('Oho!');
+        document.getElementById('goofy-sound').play();
+        document.getElementById('background-music').play();
+        document.getElementById('goofy-product').classList.remove('hidden');
+        setRandomColors();
+    }
+
+    function setRandomColors() {
+        document.querySelectorAll('.product').forEach((product) => {
+            const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            product.style.backgroundColor = randomColor;
+        });
     }
 
     function addToCart(productName, productPrice, productImage, productId) {
@@ -293,11 +383,37 @@
         });
 
         document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+        document.getElementById('cart').classList.add('active');
         document.getElementById('total').classList.add('cart-update');
 
         setTimeout(() => {
             document.getElementById('total').classList.remove('cart-update');
         }, 500);
+    }
+
+    function showPage(page) {
+        document.querySelector('.products').classList.remove('active');
+        document.querySelector('.about').classList.remove('active');
+        document.querySelector('.contact').classList.remove('active');
+        document.querySelector('#cart').classList.remove('active'); // Piilota ostoskori muilla sivuilla
+
+        document.querySelector(`.${page}`).classList.add('active');
+        
+        if (page === 'products') {
+            document.querySelector('#cart').classList.add('active');
+        }
+    }
+
+    function submitContactForm() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        if (name && email && message) {
+            alert(`Thank you, ${name}! Your message has been sent.`);
+        } else {
+            alert('Please fill out all fields.');
+        }
     }
 </script>
 
