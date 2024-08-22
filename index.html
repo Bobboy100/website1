@@ -220,15 +220,15 @@
         #mute-button {
             display: none;
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
             background-color: #333;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 30px;
             border-radius: 50px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             z-index: 1000;
         }
 
@@ -437,8 +437,10 @@
 
     function toggleMute() {
         const music = document.getElementById('background-music');
+        const goofySound = document.getElementById('goofy-sound');
         isMuted = !isMuted;
         music.muted = isMuted;
+        goofySound.muted = isMuted;
         document.getElementById('mute-button').innerText = isMuted ? 'Unmute Music' : 'Mute Music';
     }
 </script>
