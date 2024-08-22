@@ -216,9 +216,24 @@
             transform: rotate(-10deg);
         }
 
-        .random-color {
-            background-color: #ff6a00;
-            color: #fff;
+        /* Mute Button Styling */
+        #mute-button {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        #mute-button:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -312,6 +327,9 @@
     Your browser does not support the audio element.
 </audio>
 
+<!-- Mute Button -->
+<button id="mute-button" onclick="toggleMute()">Mute Music</button>
+
 <footer>
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
 </footer>
@@ -319,6 +337,7 @@
 <script>
     let cart = [];
     let total = 0;
+    let isMuted = false;
 
     document.addEventListener('keydown', checkKonamiCode);
     let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
@@ -337,10 +356,10 @@
 
     function activateGoofyMode() {
         document.body.classList.add('goofy-mode', 'animated-bg');
-        alert('Oho!');
         document.getElementById('goofy-sound').play();
         document.getElementById('background-music').play();
         document.getElementById('goofy-product').classList.remove('hidden');
+        document.getElementById('mute-button').style.display = 'block';
         setRandomColors();
     }
 
@@ -414,6 +433,13 @@
         } else {
             alert('Please fill out all fields.');
         }
+    }
+
+    function toggleMute() {
+        const music = document.getElementById('background-music');
+        isMuted = !isMuted;
+        music.muted = isMuted;
+        document.getElementById('mute-button').innerText = isMuted ? 'Unmute Music' : 'Mute Music';
     }
 </script>
 
