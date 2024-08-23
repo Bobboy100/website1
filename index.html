@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             color: #333;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         header {
@@ -19,6 +19,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         header h1 {
@@ -123,6 +124,7 @@
             margin: 0;
             font-size: 14px;
             color: #777;
+            transition: color 0.3s ease;
         }
 
         #cart {
@@ -131,7 +133,8 @@
             margin: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            display: none; /* Piilotetaan oletuksena */
+            display: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         #cart.active {
@@ -205,18 +208,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Goofy Mode - Extra Effects */
-        .goofy-mode .product {
-            background-color: #ff69b4;
-            transform: rotate(10deg);
-            transition: transform 0.5s ease, background-color 0.5s ease;
-        }
-
-        .goofy-mode .product:hover {
-            transform: rotate(-10deg);
-        }
-
-        /* Mute Button Styling */
         #mute-button {
             display: none;
             position: fixed;
@@ -225,7 +216,7 @@
             background-color: #333;
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 20px 40px;
             border-radius: 50px;
             cursor: pointer;
             font-size: 18px;
@@ -234,6 +225,77 @@
 
         #mute-button:hover {
             background-color: #555;
+        }
+
+        #dark-mode-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        #random-fact-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .dark-mode header, .dark-mode footer, .dark-mode #cart {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .dark-mode nav a {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .product {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .contact form {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .dark-mode nav a:hover {
+            background-color: #333;
+        }
+
+        #easter-egg, #threatening-red-message {
+            display: none;
+            font-size: 24px;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10000;
         }
     </style>
 </head>
@@ -249,7 +311,6 @@
     </nav>
 </header>
 
-<!-- Products Section -->
 <div class="products active">
     <div class="product">
         <img src="images/images (1).jpeg" alt="100000 quota stare">
@@ -285,13 +346,11 @@
     </div>
 </div>
 
-<!-- About Page -->
 <div class="about">
     <h2>About Us</h2>
     <p>This is a minimalist online store created by the team of Fabriccage. Thank you for visiting!</p>
 </div>
 
-<!-- Contact Page -->
 <div class="contact">
     <h2>Contact Us</h2>
     <form>
@@ -311,24 +370,26 @@
     </form>
 </div>
 
-<!-- Shopping Cart -->
 <div id="cart" class="active">
     <h2>Shopping Cart</h2>
     <ul id="cart-items"></ul>
     <div id="total">Total: $0.00</div>
 </div>
 
-<!-- Goofy Mode Sound -->
 <audio id="goofy-sound" src="images/goofy mode start.mp3"></audio>
 
-<!-- Goofy Mode Background Music -->
 <audio id="background-music" loop>
     <source src="images/background-music.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
 
-<!-- Mute Button -->
 <button id="mute-button" onclick="toggleMute()">Mute Music</button>
+<button id="dark-mode-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+<button id="random-fact-button" onclick="showRandomFact()">Random Fact</button>
+
+<div id="easter-egg">John 3:16 - "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."</div>
+
+<div id="threatening-red-message">Why are you lying to me Uu Crucifix?</div>
 
 <footer>
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
@@ -338,8 +399,11 @@
     let cart = [];
     let total = 0;
     let isMuted = false;
+    let darkMode = false;
+    let typedKeys = '';
 
     document.addEventListener('keydown', checkKonamiCode);
+    document.addEventListener('keydown', checkEasterEggs);
     let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
     let konamiIndex = 0;
 
@@ -351,6 +415,17 @@
             }
         } else {
             konamiIndex = 0;
+        }
+    }
+
+    function checkEasterEggs(e) {
+        typedKeys += e.key;
+        if (typedKeys.includes("r1sk")) {
+            showEasterEgg();
+            typedKeys = '';
+        } else if (typedKeys.includes("threatening red")) {
+            showThreateningRedMessage();
+            typedKeys = '';
         }
     }
 
@@ -375,9 +450,11 @@
         const quantity = parseInt(quantityInput.value);
 
         const audio = document.getElementById(`audio-${productId}`);
-        audio.play();
-
         for (let i = 0; i < quantity; i++) {
+            setTimeout(() => {
+                audio.play();
+            }, i * 100);
+
             cart.push({ name: productName, price: productPrice, image: productImage });
         }
         
@@ -414,7 +491,7 @@
         document.querySelector('.products').classList.remove('active');
         document.querySelector('.about').classList.remove('active');
         document.querySelector('.contact').classList.remove('active');
-        document.querySelector('#cart').classList.remove('active'); // Piilota ostoskori muilla sivuilla
+        document.querySelector('#cart').classList.remove('active');
 
         document.querySelector(`.${page}`).classList.add('active');
         
@@ -442,6 +519,36 @@
         music.muted = isMuted;
         goofySound.muted = isMuted;
         document.getElementById('mute-button').innerText = isMuted ? 'Unmute Music' : 'Mute Music';
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+
+    function showRandomFact() {
+        const facts = [
+            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 1!",
+            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 2!",
+            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 3!"
+        ];
+        const randomIndex = Math.floor(Math.random() * facts.length);
+        alert(facts[randomIndex]);
+    }
+
+    function showEasterEgg() {
+        const easterEgg = document.getElementById('easter-egg');
+        easterEgg.style.display = 'block';
+        setTimeout(() => {
+            easterEgg.style.display = 'none';
+        }, 5000);
+    }
+
+    function showThreateningRedMessage() {
+        const message = document.getElementById('threatening-red-message');
+        message.style.display = 'block';
+        setTimeout(() => {
+            message.style.display = 'none';
+        }, 5000);
     }
 </script>
 
