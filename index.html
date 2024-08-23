@@ -282,21 +282,6 @@
         .dark-mode nav a:hover {
             background-color: #333;
         }
-
-        #easter-egg, #threatening-red-message {
-            display: none;
-            font-size: 24px;
-            text-align: center;
-            padding: 20px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 10000;
-        }
     </style>
 </head>
 <body>
@@ -387,25 +372,37 @@
 <button id="dark-mode-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 <button id="random-fact-button" onclick="showRandomFact()">Random Fact</button>
 
-<div id="easter-egg">John 3:16 - "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."</div>
-
-<div id="threatening-red-message">Why are you lying to me Uu Crucifix?</div>
-
 <footer>
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
 </footer>
+
+<div id="easter-egg" style="display: none; text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;"></div>
 
 <script>
     let cart = [];
     let total = 0;
     let isMuted = false;
     let darkMode = false;
-    let typedKeys = '';
+    let keySequence = '';
 
-    document.addEventListener('keydown', checkKonamiCode);
-    document.addEventListener('keydown', checkEasterEggs);
-    let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-    let konamiIndex = 0;
+    document.addEventListener('keydown', (e) => {
+        keySequence += e.key.toLowerCase();
+        if (keySequence.includes('r1sk')) {
+            document.getElementById('easter-egg').innerText = "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.";
+            document.getElementById('easter-egg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('easter-egg').style.display = 'none';
+            }, 5000);
+            keySequence = '';
+        } else if (keySequence.includes('threatening red')) {
+            document.getElementById('easter-egg').innerText = "Why are you lying to me Uu Crucifix?";
+            document.getElementById('easter-egg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('easter-egg').style.display = 'none';
+            }, 5000);
+            keySequence = '';
+        }
+    });
 
     function checkKonamiCode(e) {
         if (e.keyCode === konamiCode[konamiIndex]) {
@@ -415,17 +412,6 @@
             }
         } else {
             konamiIndex = 0;
-        }
-    }
-
-    function checkEasterEggs(e) {
-        typedKeys += e.key;
-        if (typedKeys.includes("r1sk")) {
-            showEasterEgg();
-            typedKeys = '';
-        } else if (typedKeys.includes("threatening red")) {
-            showThreateningRedMessage();
-            typedKeys = '';
         }
     }
 
@@ -529,26 +515,20 @@
         const facts = [
             "Goofy Ahh Ohio Sigma Rizzler Gyat fact 1!",
             "Goofy Ahh Ohio Sigma Rizzler Gyat fact 2!",
-            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 3!"
+            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 3!",
+            "Ohio is the home of the world's largest basket!",
+            "Sigma rule number 100: Always keep a straight face in Ohio.",
+            "Goofy Ahh energy peaks at 3 AM in Ohio.",
+            "Ohio has more cornfields than stars in the sky.",
+            "Sigma Rizzlers only wear sunglasses at night in Ohio.",
+            "Ohio invented the Sigma grindset mentality.",
+            "Ohio’s state bird is the Goofy Ahh crow.",
+            "Goofy Ahh Ohioans never back down from a rizz challenge.",
+            "Rizzlers gather in Ohio once a year for the Great Ohio Rizz Fest.",
+            "Ohio is the only state where you can legally rizz up a cloud."
         ];
         const randomIndex = Math.floor(Math.random() * facts.length);
         alert(facts[randomIndex]);
-    }
-
-    function showEasterEgg() {
-        const easterEgg = document.getElementById('easter-egg');
-        easterEgg.style.display = 'block';
-        setTimeout(() => {
-            easterEgg.style.display = 'none';
-        }, 5000);
-    }
-
-    function showThreateningRedMessage() {
-        const message = document.getElementById('threatening-red-message');
-        message.style.display = 'block';
-        setTimeout(() => {
-            message.style.display = 'none';
-        }, 5000);
     }
 </script>
 
