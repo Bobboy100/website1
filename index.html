@@ -438,16 +438,26 @@
     let darkMode = false;
     let keySequence = '';
 
-    document.addEventListener('keydown', (e) => {
-        keySequence += e.key.toLowerCase();
-        if (keySequence.includes('r1sk')) {
-            document.getElementById('easteregg-r1sk').classList.add('active');
-            keySequence = '';
-        } else if (keySequence.includes('threatening red')) {
-            document.getElementById('easteregg-threatening-red').classList.add('active');
-            keySequence = '';
-        }
-    });
+    let keySequenceR1sk = '';
+let keySequenceThreateningRed = '';
+
+document.addEventListener('keydown', (e) => {
+    
+    keySequenceR1sk += e.key.toLowerCase();
+    keySequenceThreateningRed += e.key.toLowerCase();
+   
+   
+    if (keySequenceR1sk.includes('r1sk')) {
+        document.getElementById('easteregg-r1sk').classList.add('active');
+        keySequenceR1sk = ''; // Tyhjennetään sekvenssi aktivoinnin jälkeen
+    }
+
+    
+    if (keySequenceThreateningRed.includes('threatening red')) {
+        document.getElementById('easteregg-threatening-red').classList.add('active');
+        keySequenceThreateningRed = ''; // Tyhjennetään sekvenssi aktivoinnin jälkeen
+    }
+});
 
     let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
     let konamiIndex = 0;
