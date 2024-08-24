@@ -265,7 +265,24 @@
             cursor: pointer;
             font-size: 18px;
             z-index: 1000;
-        }
+	}
+	
+	#language-button {
+    	    position: fixed;
+    	    top: 20px;
+    	    left: 20px;
+    	    background-color: #333;
+    	    color: white;
+    	    border: none;
+    	    padding: 10px 20px;
+    	    border-radius: 5px;
+    	    cursor: pointer;
+    	    z-index: 1000;
+	}
+
+	#language-button:hover {
+    	    background-color: #555;
+	}
 
         .dark-mode {
             background-color: #121212;
@@ -405,6 +422,7 @@
     Your browser does not support the audio element.
 </audio>
 
+<button id="language-button" onclick="toggleLanguage()">Toggle Language</button>
 <button id="mute-button" onclick="toggleMute()">Mute Music</button>
 <button id="dark-mode-button" onclick="toggleDarkMode()">Change Mode</button>
 <button id="random-fact-button" onclick="showRandomFact()">Random Fact</button>
@@ -575,6 +593,114 @@
         const randomIndex = Math.floor(Math.random() * facts.length);
         document.getElementById('random-fact-text').textContent = facts[randomIndex];
         document.getElementById('random-fact-box').style.display = 'block';
+    }
+
+const russianTexts = {
+        title: "Минималистский магазин",
+        navHome: "Главная",
+        navProducts: "Продукты",
+        navAbout: "О нас",
+        navContact: "Контакты",
+        product1Title: "100000 квота взгляд",
+        product1Price: "19.99 ₽",
+        product2Title: "Эй, это я Гоку!",
+        product2Price: "29.99 ₽",
+        product3Title: "Это Иисус?!",
+        product3Price: "39.99 ₽",
+        product4Title: "Ветка",
+        product4Price: "9.99 ₽",
+        cartTitle: "Корзина покупок",
+        totalText: "Итого: ",
+        langButton: "Переключить на английский",
+        aboutTitle: "О нас",
+        aboutText: "Это минималистский интернет-магазин, созданный командой Fabriccage. Спасибо за посещение!",
+        contactTitle: "Контакты",
+        contactNameLabel: "Ваше имя",
+        contactEmailLabel: "Ваш email",
+        contactMessageLabel: "Ваше сообщение",
+        contactSubmitButton: "Отправить",
+        addToCartButton: "Добавить в корзину",
+        muteButton: "Выключить музыку",
+        unmuteButton: "Включить музыку",
+        darkModeButton: "Изменить режим",
+        randomFactButton: "Случайный факт",
+        randomFact1: "В Огайо, Риззлеры не ходят — они скользят по полям кукурузы.",
+        randomFact2: "Риззлеры из Огайо могут вызвать торнадо одним только подмигиванием.",
+        randomFact3: "Девиз штата Огайо — 'Ризз или будь риззированным.'",
+        randomFact4: "Риззлеры из Огайо известны своими самыми гладкими подкатами на Среднем Западе.",
+        randomFact5: "Говорят, что однажды Риззлеры из Огайо заставили статую подмигнуть."
+    };
+
+    let isRussian = false;
+
+    function toggleLanguage() {
+        if (isRussian) {
+            // Vaihdetaan takaisin englantiin
+            document.querySelector('header h1').textContent = 'Minimalist Store';
+            document.querySelector('nav a[href="#"]').textContent = 'Home';
+            document.querySelectorAll('nav a')[1].textContent = 'Products';
+            document.querySelectorAll('nav a')[2].textContent = 'About';
+            document.querySelectorAll('nav a')[3].textContent = 'Contact';
+            document.querySelector('.about h2').textContent = 'About Us';
+            document.querySelector('.about p').textContent = 'This is a minimalist online store created by the team of Fabriccage. Thank you for visiting!';
+            document.querySelectorAll('.product h2')[0].textContent = '100000 quota stare';
+            document.querySelectorAll('.product h2')[1].textContent = 'Hey it\'s me Goku!';
+            document.querySelectorAll('.product h2')[2].textContent = 'Jesus itself?!';
+            document.querySelectorAll('.product h2')[3].textContent = 'Branch';
+            isRussian = false;
+        } else {
+            // Vaihdetaan venäjäksi
+            document.querySelector('header h1').textContent = russianTexts.title;
+            document.querySelector('nav a[href="#"]').textContent = russianTexts.navHome;
+            document.querySelectorAll('nav a')[1].textContent = russianTexts.navProducts;
+            document.querySelectorAll('nav a')[2].textContent = russianTexts.navAbout;
+            document.querySelectorAll('nav a')[3].textContent = russianTexts.navContact;
+            document.querySelector('.about h2').textContent = russianTexts.aboutTitle;
+            document.querySelector('.about p').textContent = russianTexts.aboutText;
+            document.querySelectorAll('.product h2')[0].textContent = russianTexts.product1Title;
+            document.querySelectorAll('.product h2')[1].textContent = russianTexts.product2Title;
+            document.querySelectorAll('.product h2')[2].textContent = russianTexts.product3Title;
+            document.querySelectorAll('.product h2')[3].textContent = russianTexts.product4Title;
+            isRussian = true;
+        }
+    }
+
+    function setRussianText() {
+        document.title = russianTexts.title;
+        document.querySelector('header h1').innerText = russianTexts.title;
+        document.querySelector('nav a[href="#"]').innerText = russianTexts.navHome;
+        document.querySelectorAll('nav a')[1].innerText = russianTexts.navProducts;
+        document.querySelectorAll('nav a')[2].innerText = russianTexts.navAbout;
+        document.querySelectorAll('nav a')[3].innerText = russianTexts.navContact;
+
+        document.querySelectorAll('.product h2')[0].innerText = russianTexts.product1Title;
+        document.querySelectorAll('.product p')[0].innerText = russianTexts.product1Price;
+
+        document.querySelectorAll('.product h2')[1].innerText = russianTexts.product2Title;
+        document.querySelectorAll('.product p')[1].innerText = russianTexts.product2Price;
+
+        document.querySelectorAll('.product h2')[2].innerText = russianTexts.product3Title;
+        document.querySelectorAll('.product p')[2].innerText = russianTexts.product3Price;
+
+        document.querySelectorAll('.product h2')[3].innerText = russianTexts.product4Title;
+        document.querySelectorAll('.product p')[3].innerText = russianTexts.product4Price;
+
+        document.querySelector('#cart h2').innerText = russianTexts.cartTitle;
+        document.querySelector('#total').innerText = russianTexts.totalText + ' $0.00';
+        document.getElementById('dark-mode-button').innerText = russianTexts.darkModeButton;
+        document.getElementById('random-fact-button').innerText = russianTexts.randomFactButton;
+
+        document.querySelector('.about h2').innerText = russianTexts.aboutTitle;
+        document.querySelector('.about p').innerText = russianTexts.aboutText;
+
+        document.querySelector('.contact h2').innerText = russianTexts.contactTitle;
+        document.querySelector('label[for="name"]').innerText = russianTexts.contactNameLabel;
+        document.querySelector('label[for="email"]').innerText = russianTexts.contactEmailLabel;
+        document.querySelector('label[for="message"]').innerText = russianTexts.contactMessageLabel;
+        document.querySelector('.contact button').innerText = russianTexts.contactSubmitButton;
+    }
+
+    function setEnglishText() {
     }
 </script>
 
