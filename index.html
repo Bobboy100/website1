@@ -293,6 +293,12 @@
 
         .dark-mode nav a:hover {
             background-color: #333;
+	}
+	
+	.dark-mode #random-fact-box {
+            color: #e0e0e0;
+            background-color: #333;
+            border-color: #555;
         }
 
         #random-fact-box {
@@ -308,7 +314,7 @@
 
     </style>
 </head>
-<body>
+<body class="dark-mode">
 
 <header>
     <h1>Minimalist Store</h1>
@@ -400,7 +406,7 @@
 </audio>
 
 <button id="mute-button" onclick="toggleMute()">Mute Music</button>
-<button id="dark-mode-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+<button id="dark-mode-button" onclick="toggleDarkMode()">Change Mode</button>
 <button id="random-fact-button" onclick="showRandomFact()">Random Fact</button>
 
 <footer>
