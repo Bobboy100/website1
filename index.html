@@ -186,6 +186,18 @@
             }
         }
 
+        .easteregg-text {
+            display: none;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .easteregg-text.active {
+            display: block;
+        }
+
         .goofy-mode {
             background-color: #ff69b4;
             color: #000;
@@ -282,6 +294,18 @@
         .dark-mode nav a:hover {
             background-color: #333;
         }
+
+        #random-fact-box {
+            display: none;
+            text-align: center;
+            font-size: 24px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
     </style>
 </head>
 <body>
@@ -331,6 +355,13 @@
     </div>
 </div>
 
+<div id="easteregg-r1sk" class="easteregg-text">For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life. - John 3:16</div>
+<div id="easteregg-threatening-red" class="easteregg-text">Why are you lying to me Uu Crucifix?</div>
+
+<div id="random-fact-box">
+    <p id="random-fact-text"></p>
+</div>
+
 <div class="about">
     <h2>About Us</h2>
     <p>This is a minimalist online store created by the team of Fabriccage. Thank you for visiting!</p>
@@ -376,8 +407,6 @@
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
 </footer>
 
-<div id="easter-egg" style="display: none; text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;"></div>
-
 <script>
     let cart = [];
     let total = 0;
@@ -388,21 +417,18 @@
     document.addEventListener('keydown', (e) => {
         keySequence += e.key.toLowerCase();
         if (keySequence.includes('r1sk')) {
-            document.getElementById('easter-egg').innerText = "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.";
-            document.getElementById('easter-egg').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('easter-egg').style.display = 'none';
-            }, 5000);
+            document.getElementById('easteregg-r1sk').classList.add('active');
             keySequence = '';
         } else if (keySequence.includes('threatening red')) {
-            document.getElementById('easter-egg').innerText = "Why are you lying to me Uu Crucifix?";
-            document.getElementById('easter-egg').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('easter-egg').style.display = 'none';
-            }, 5000);
+            document.getElementById('easteregg-threatening-red').classList.add('active');
             keySequence = '';
         }
     });
+
+    let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', checkKonamiCode);
 
     function checkKonamiCode(e) {
         if (e.keyCode === konamiCode[konamiIndex]) {
@@ -513,9 +539,21 @@
 
     function showRandomFact() {
         const facts = [
-            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 1!",
-            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 2!",
-            "Goofy Ahh Ohio Sigma Rizzler Gyat fact 3!",
+            "In Ohio, Rizzlers don't walk—they glide across the cornfields.",
+            "Ohio Rizzlers can rizz up a tornado just by winking.",
+            "The state motto of Ohio is 'Rizz or be Rizzed.'",
+            "Ohio Rizzlers are known to have the smoothest pick-up lines in the Midwest.",
+            "It's said that Ohio Rizzlers once Rizzed up a statue, and now it winks back.",
+            "The Ohio River was once just a creek, but then the Rizzlers showed up.",
+            "Ohio Rizzlers never take elevators—they just Rizz their way up to the top floor.",
+            "Ohio Rizzlers can charm a tree to grow back its leaves in the middle of winter.",
+            "Rizzlers from Ohio don't need GPS—they follow their inner Rizz north.",
+            "Ohio Rizzlers can Rizz up an entire city into throwing a spontaneous parade.",
+            "Ohio Rizzlers once talked a bear into becoming a vegan.",
+            "The Ohio sky is bluer when the Rizzlers are out and about.",
+            "Ohio Rizzlers can convince the sun to rise early if they have somewhere important to be.",
+            "Legend says Ohio Rizzlers once rizzed an entire lake into drying up, only to fill it with charm.",
+            "The Ohio Rizzlers have the ability to out-rizz the smoothest of operators from anywhere in the world.",
             "Ohio is the home of the world's largest basket!",
             "Sigma rule number 100: Always keep a straight face in Ohio.",
             "Goofy Ahh energy peaks at 3 AM in Ohio.",
@@ -527,8 +565,10 @@
             "Rizzlers gather in Ohio once a year for the Great Ohio Rizz Fest.",
             "Ohio is the only state where you can legally rizz up a cloud."
         ];
+
         const randomIndex = Math.floor(Math.random() * facts.length);
-        alert(facts[randomIndex]);
+        document.getElementById('random-fact-text').textContent = facts[randomIndex];
+        document.getElementById('random-fact-box').style.display = 'block';
     }
 </script>
 
