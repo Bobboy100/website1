@@ -282,6 +282,8 @@
 
 	#language-button:hover {
     	    background-color: #555;
+
+		
 	}
 
         .dark-mode {
@@ -336,7 +338,7 @@
 <header>
     <h1>Minimalist Store</h1>
     <nav>
-        <a href="#" onclick="showPage('products')">Home</a>
+        <a href="#" onclick="showPage('home')">Home</a>
         <a href="#" onclick="showPage('products')">Products</a>
         <a href="#" onclick="showPage('about')">About</a>
         <a href="#" onclick="showPage('contact')">Contact</a>
@@ -427,10 +429,13 @@
 <button id="dark-mode-button" onclick="toggleDarkMode()">Change Mode</button>
 <button id="random-fact-button" onclick="showRandomFact()">Random Fact</button>
 
+<img id="goofy-logo" src="images/goofy-logo.jpeg" alt="Goofy Logo" style="display: none; position: absolute; width: 400px;">
+
 <footer>
     <p>&copy; 2024 Minimalist Store. All rights reserved.</p>
 </footer>
 
+	    
 <script>
     let cart = [];
     let total = 0;
@@ -449,13 +454,13 @@ document.addEventListener('keydown', (e) => {
    
     if (keySequenceR1sk.includes('r1sk')) {
         document.getElementById('easteregg-r1sk').classList.add('active');
-        keySequenceR1sk = ''; // Tyhjennetään sekvenssi aktivoinnin jälkeen
+        keySequenceR1sk = '';
     }
 
     
     if (keySequenceThreateningRed.includes('threatening red')) {
         document.getElementById('easteregg-threatening-red').classList.add('active');
-        keySequenceThreateningRed = ''; // Tyhjennetään sekvenssi aktivoinnin jälkeen
+        keySequenceThreateningRed = ''; 
     }
 });
 
@@ -476,13 +481,15 @@ document.addEventListener('keydown', (e) => {
     }
 
     function activateGoofyMode() {
+	
         document.body.classList.add('goofy-mode', 'animated-bg');
         document.getElementById('goofy-sound').play();
         document.getElementById('background-music').play();
         document.getElementById('goofy-product').classList.remove('hidden');
         document.getElementById('mute-button').style.display = 'block';
         setRandomColors();
-    }
+        
+	}
 
     function setRandomColors() {
         document.querySelectorAll('.product').forEach((product) => {
